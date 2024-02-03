@@ -6,15 +6,14 @@
     <button>Log in</button>
   </form>
 </template>
-  
-  <script>
+
+<script>
 import { ref } from "vue";
 import useLogin from "../composables/useLogin";
 
 export default {
-  setup() {
+  setup(props, context) {
     // refs
-
     const email = ref("");
     const password = ref("");
 
@@ -23,7 +22,7 @@ export default {
     const handleSubmit = async () => {
       await login(email.value, password.value);
       if (!error.value) {
-        console.log("user logges in");
+        context.emit("login");
       }
     };
 
@@ -31,6 +30,6 @@ export default {
   },
 };
 </script>
-  
-  <style>
+
+<style>
 </style>
