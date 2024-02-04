@@ -4,23 +4,23 @@
       placeholder="Type a message and hit enter to send..."
       v-model="message"
       @keypress.enter.prevent="handleSubmit"
-    >
-    </textarea>
-    <div class="error">{{ error }}</div>
+    ></textarea>
+    <div v-if="error" class="error">{{ error }}</div>
   </form>
 </template>
-
-<script>
-import { ref } from "vue";
-import getUser from "../composables/getUser";
+  
+  <script>
 import useCollection from "../composables/useCollection";
+import getUser from "../composables/getUser";
 import { timestamp } from "../firebase/config";
+import { ref } from "vue";
 
 export default {
   setup() {
     const { user } = getUser();
-    const { addDoc, error } = useCollection("message");
+    const { addDoc, error } = useCollection("messages");
 
+    // refs
     const message = ref("");
 
     const handleSubmit = async () => {
@@ -34,12 +34,13 @@ export default {
         message.value = "";
       }
     };
+
     return { message, handleSubmit, error };
   },
 };
 </script>
-
-<style scoped>
+  
+  <style scoped>
 form {
   margin: 10px;
 }
@@ -53,5 +54,11 @@ textarea {
   border-radius: 20px;
   font-family: inherit;
   outline: none;
+}
+.error {
+  text-align: center;
+  color: #ff2a58;
+  font-size: 12px;
+  padding: 10px 0;
 }
 </style>
